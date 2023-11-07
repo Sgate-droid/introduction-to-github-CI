@@ -20,10 +20,15 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: 16
+          node-version: 14
           
       - name: Install dependencies
         run: npm install remark-cli remark-preset-lint-consistent
 
       - name: Run markdown lint
         run: npx remark . --use remark-preset-lint-consistent --frail
+
+      - uses: actions/upload-artifact@main
+        with:
+          name: remark-lint-report
+          path: public/
