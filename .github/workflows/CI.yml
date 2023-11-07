@@ -2,19 +2,28 @@ name: CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
   pull_request:
-    branches: [ "main" ]
-
+    branches:
+      - main
   workflow_dispatch:
 
-  jobs:
-    build:
+jobs:
+  build:
     runs-on: ubuntu-latest
-  
-  steps:
-    - uses: actions/checkout@v3
-    - name: Run markdown lint
-  run: |
-      npm install remark-cli remark-preset-lint-consistent
-      npx remark . --use remark-preset-lint-consistent --frail
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Install dependencies
+        run: npm install remark-cli remark-preset-lint-consistent
+
+      - name: Run markdown lint
+        run: npx remark . --use remark-preset-lint-consistent --frail
